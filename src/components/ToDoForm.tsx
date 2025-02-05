@@ -50,7 +50,29 @@ const ToDoForm = () => {
         } else {
             setErrors({});
             // skicka data
+ 
+            const payload = {
+                title: formData.title,
+                description: formData.description,
+                status: formData.status ? "in progress" : "not started"
+            };
 
+            fetch("https://todoapi-167u.onrender.com/todos", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Success:", data);
+                    // Eventuellt rensa formuläret här:
+                    setFormData({ title: "", description: "", status: false });
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
         }
     })
 
