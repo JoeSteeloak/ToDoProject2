@@ -1,0 +1,90 @@
+/* Grundläggande styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Wrapper för listan */
+div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 20px;
+    justify-content: center;
+}
+
+/* ToDo-item */
+section {
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Titel och beskrivning */
+h2 {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 8px 0;
+}
+
+p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+/* Status-knapp */
+button {
+    font-size: 1rem;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+    max-width: 250px;
+    margin-bottom: 10px;
+}
+
+/* Färgändring baserat på status */
+.status-not-started {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.status-in-progress {
+    background-color: #ffcc00;
+    color: black;
+}
+
+.status-finished {
+    background-color: #4caf50;
+    color: white;
+}
+
+/* Delete-knapp */
+button.delete {
+    background-color: #ccc;
+    color: black;
+}
+
+button.delete:hover {
+    background-color: #999;
+}
+
+/* Responsiv design */
+@media (max-width: 600px) {
+    div {
+        flex-direction: column;
+        align-items: center;
+    }
+}

@@ -1,86 +1,86 @@
-import { useState, useEffect } from "react";
-
+import "./ToDoList.css"
 interface Post {
     id: number;
-    title: string,
-    description: string,
-    status: string
+    title: string;
+    description: string;
+    status: string;
 }
 
-function ToDoList() {
+interface Props {
+    posts: Post[];
+    loading: boolean;
+    error: string | null;
+    getPosts: () => void; // Funktion för att uppdatera listan
+}
 
-    //states
-    const [posts, setPosts] = useState<Post[] | []>([]);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
-
-    useEffect(() => {
-        getPosts();
-    }, [])
-
-    const deletePost = async (id: number) => {
+const ToDoList = ({ posts, loading, error, getPosts }: Props) => {
+    const handleDelete = async (id: number) => {
         try {
-            const resp = await fetch(`https://todoapi-167u.onrender.com/todos/${id}`, {
+            const response = await fetch(`https://todoapi-167u.onrender.com/todos/${id}`, {
                 method: "DELETE",
             });
-            if (!resp.ok) {
+
+            if (!response.ok) {
                 throw new Error("Failed to delete post");
             }
-            // Uppdatera state genom att filtrera bort posten med detta id
-            setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
+
+            // Uppdatera listan efter radering
+            getPosts();
         } catch (error) {
             console.error("Error deleting post:", error);
         }
-    }
+    };
 
+    // Funktion för att byta status i en cykel
+    const handleToggleStatus = async (id: number, currentStatus: string) => {
+        // Definiera status-ordningen
+        const statusOrder = ["not started", "in progress", "finished"];
 
-    const getPosts = async () => {
+        // Hitta nästa status
+        const nextStatus =
+            statusOrder[(statusOrder.indexOf(currentStatus) + 1) % statusOrder.length];
+
         try {
+            const response = await fetch(`https://todoapi-167u.onrender.com/todos/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: nextStatus }),
+            });
 
-            setLoading(true);
-
-            const resp = await fetch("https://todoapi-167u.onrender.com/todos");
-
-            if (!resp.ok) {
-                throw Error;
-            } else {
-                const data = await resp.json();
-
-                setPosts(data);
-                setError(null);
+            if (!response.ok) {
+                throw new Error("Failed to update status");
             }
 
+            // Uppdatera listan efter ändringen
+            getPosts();
         } catch (error) {
-            setError("Something went wrong fetching the list...")
-        } finally {
-            setLoading(false);
+            console.error("Error updating status:", error);
         }
-    }
+    };
 
     return (
         <>
-            {
-                error && <p className="info">{error}</p>
-            }
-
-            {
-                loading && <p className="info">laddar in listan...</p>
-            }
+            {error && <p className="info">{error}</p>}
+            {loading && <p className="info">Loading list...</p>}
             <div>
-                {
-                    posts.map((post) => (
-                        <section key={post.id}>
-                            <h2>{post.title}</h2>
-                            <p>{post.description}</p>
-                            <p>{post.status}</p>
-                            <button onClick={() => deletePost(post.id)}>Delete</button>
-                        </section>
-                    ))
-                }
-            </div>
+                {posts.map((post) => (
+                    <section key={post.id}>
+                        <h2>{post.title}</h2>
+                        <p>{post.description}</p>
+                        {/* Klickbar status */}
+                        <button 
+    className={`status-${post.status.replace(" ", "-").toLowerCase()}`}
+    onClick={() => handleToggleStatus(post.id, post.status)}
+>
+    Status: {post.status}
+</button>
 
+<button className="delete" onClick={() => handleDelete(post.id)}>Delete</button>
+                    </section>
+                ))}
+            </div>
         </>
     );
-}
+};
 
-export default ToDoList
+export default ToDoList;

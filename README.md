@@ -1,50 +1,48 @@
-# React + TypeScript + Vite
+# ToDo App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+En enkel ToDo-applikation där användare kan skapa, läsa, uppdatera och ta bort uppgifter. Statusen för varje uppgift kan ändras mellan tre olika tillstånd: "Ej påbörjad", "Pågående", och "Avklarad". Applikationen är byggd med React och använder ett RESTful API för att hantera uppgifter.
 
-Currently, two official plugins are available:
+## Funktioner
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Visa uppgifter**: Lista alla ToDos med information om titel, beskrivning och status.
+- **Skapa uppgift**: Lägg till nya uppgifter med titel, beskrivning och initial status.
+- **Uppdatera status**: Byt status för varje uppgift mellan "Ej påbörjad", "Pågående", och "Avklarad".
+- **Ta bort uppgift**: Ta bort en uppgift från listan.
 
-## Expanding the ESLint configuration
+## Teknologier
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **React**: För att bygga användargränssnittet.
+- **CSS**: För att styla appen och göra den responsiv.
+- **Fetch API**: För att kommunicera med backend-API:t.
 
-- Configure the top-level `parserOptions` property like this:
+## Installation
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+1. Klona repositoryt:
+    ```git clone https://github.com/JoeSteeloak/ToDoProject2.git```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Navigera till mappen:
+    ```cd to-do-app```
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+3. Installera beroenden:
+    ```npm install```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+4. Starta applikationen:
+    ```npm start```
+
+Öppna din webbläsare och gå till `http://localhost:3000` för att använda appen.
+
+## Användning
+
+1. **Skapa en uppgift**: Fyll i titel och beskrivning, och tryck på "Lägg till i lista".
+2. **Ändra status**: Klicka på statusknappen för att växla mellan "Ej påbörjad", "Pågående", och "Avklarad". Färgen på knappen ändras beroende på status.
+3. **Ta bort en uppgift**: Klicka på "Ta bort" för att radera en uppgift från listan.
+
+## CSS-styling
+
+- Responsiv design för att anpassa sig till både desktop och mobila enheter.
+- Färgkodning av statusknappar:
+  - **Röd**: "Ej påbörjad"
+  - **Gul**: "Pågående"
+  - **Grön**: "Avklarad"
+- Tydlig grå färg på "Ta bort"-knappen.
+
