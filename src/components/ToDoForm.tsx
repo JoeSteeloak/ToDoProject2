@@ -15,7 +15,7 @@ const ToDoForm = () => {
     }
 
     //State for form
-    const [formData, setFormData] = useState<FormData>({title: "", description: "", status: false});
+    const [formData, setFormData] = useState<FormData>({ title: "", description: "", status: false });
 
     //state for error
     const [errors, setErrors] = useState<ErrorsData>({});
@@ -23,23 +23,28 @@ const ToDoForm = () => {
     const validateForm = ((data: FormData) => {
         const validationErrors: ErrorsData = {};
 
-        if(!data.title) {
+        if (!data.title) {
             validationErrors.title = "Enter a name for the task";
+        } else if (data.title.length < 3) {
+            validationErrors.title = "Title must be at least 3 characters";
         }
 
-        if(!data.description) {
+        if (!data.description) {
             validationErrors.description = "Give the task a description";
+        } else if (data.description.length > 200) {
+            validationErrors.description = "Description must not exceed 200 characters";
         }
 
         return validationErrors;
     });
+
 
     const submitForm = ((event: any) => {
         event.preventDefault();
 
         const validationErrors = validateForm(formData);
 
-        if(Object.keys(validationErrors).length > 0) {
+        if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
 
         } else {
@@ -52,21 +57,21 @@ const ToDoForm = () => {
 
     return (
         <>
-        <form onSubmit={submitForm}>
-            <label htmlFor="title">Task</label>
-            <input type="text" name="title" id="title" value={formData.title} onChange={(event) => setFormData({...formData, title: event.target.value})}/>
+            <form onSubmit={submitForm}>
+                <label htmlFor="title">Task</label>
+                <input type="text" name="title" id="title" value={formData.title} onChange={(event) => setFormData({ ...formData, title: event.target.value })} />
 
-            {errors.title && <span>{errors.title}</span>}
+                {errors.title && <span>{errors.title}</span>}
 
-            <label htmlFor="description">Description</label>
-            <input type="text" name="description" id="description" value={formData.description} onChange={(event) => setFormData({...formData, description: event.target.value})}/>
+                <label htmlFor="description">Description</label>
+                <input type="text" name="description" id="description" value={formData.description} onChange={(event) => setFormData({ ...formData, description: event.target.value })} />
 
-            {errors.description && <span>{errors.description}</span>}
+                {errors.description && <span>{errors.description}</span>}
 
-            <label htmlFor="status">Have you already started the task?</label>
-            <input type="checkbox" name="status" id="status" checked={formData.status} onChange={() => setFormData({...formData, status: !formData.status})}/>
-            <input type="submit" value="Add to List" />
-        </form>
+                <label htmlFor="status">Have you already started the task?</label>
+                <input type="checkbox" name="status" id="status" checked={formData.status} onChange={() => setFormData({ ...formData, status: !formData.status })} />
+                <input type="submit" value="Add to List" />
+            </form>
         </>
     )
 }
